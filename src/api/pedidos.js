@@ -1,9 +1,9 @@
 import {API_HOST} from "../utils/constants";
 
 
-export async function getProductApi(){
+export async function getPedidosApi(){
     try {
-       const url = `${API_HOST}products`;    
+       const url = `${API_HOST}pedidos`;    
         const response = await fetch(url);
         const result = await response.json();
         return result;   
@@ -11,4 +11,5 @@ export async function getProductApi(){
         throw error;
     }
 }
+
 

@@ -15,7 +15,11 @@ export default function ClientScreen(props){
 
   const [products,setProducts] = useState([]);
 
-  console.log(params.number);
+  console.log(params.boletaCod);
+
+  
+
+
 
  
   useEffect(()=>{
@@ -40,6 +44,7 @@ export default function ClientScreen(props){
 
       while (x){
 
+        
         const obj = response[a];
         if (obj){
           productArray.push({
@@ -48,7 +53,8 @@ export default function ClientScreen(props){
             code: obj.code,
             price: obj.price,
             image: obj.image,
-            description: obj.description
+            description: obj.description,
+            mesa: params.number
           })
             a++;
         }else{
@@ -68,7 +74,7 @@ export default function ClientScreen(props){
   
   return (
     <SafeAreaView>
-       <ProductList products = {products} />
+       <ProductList products = {products}  boletaCod= {params.boletaCod}  mesa = {params.number} />
     </SafeAreaView>
   );
 

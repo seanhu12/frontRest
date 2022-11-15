@@ -1,19 +1,40 @@
-import React from 'react'
+import React, {useState,useEffect} from 'react'
 import { StyleSheet, View,Text,Image,TouchableWithoutFeedback } from 'react-native'
-import ClientCarritoScreen from '../screens/ClientCarritoScreen';
+
+import {useNavigation} from "@react-navigation/native"
 import {capitalize} from "lodash"
+import axios from "axios";
+
+const baseURL = "http://192.168.1.117:8000/api/pedidos";
+
 
 
 export default function ProductCard(props) {
 
-    const {product} = props;
+    const {product,boletaCod} = props;
+    const navigation = useNavigation();
+    console.log(boletaCod);
 
-    const goToProduct = () => {
-        console.log(`Usted Ordeno: ${product.name}`);
-        
-        <ClientCarritoScreen product = {product} />
     
+    
+    const goToProduct = () => {
 
+        axios.post(baseURL, {
+            cant: 1,
+            products_name: product.name,
+            tables_number: product.mesa,
+            boletas_cod: 0,
+            estado: "enProceso"
+          })
+          .then(function (response) {
+            console.log(response);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+          
+        
+    
     }
   
     return (

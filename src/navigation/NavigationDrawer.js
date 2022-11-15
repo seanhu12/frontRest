@@ -1,7 +1,7 @@
 import React from "react";
 import {createDrawerNavigator} from "@react-navigation/drawer"
 
-import ClienTabNavigarion from "./ClienTabNavigarion";
+import ClientNavigation from "./ClientNavigation";
 import AdminNavigation from "./AdminNavigation";
 import HomeNavigation from "./HomeNavigation";
 
@@ -15,7 +15,7 @@ export default function NavigationDrawer(){
            
             <Drawer.Screen name="home" component={HomeNavigation} options={{title:"Inicio "}} />
 
-            <Drawer.Screen name="client" component={ClienTabNavigarion} options= {{title:"Cliente"}} />
+            <Drawer.Screen name="client" component={ClientNavigation} options= {{title:"Cliente"}} />
             <Drawer.Screen name="admin" component={AdminNavigation} options={{title: "Admin"}} />
             
         </Drawer.Navigator>

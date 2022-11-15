@@ -3,50 +3,26 @@ import { StyleSheet, View,Text,Image,TouchableWithoutFeedback } from 'react-nati
 import {useNavigation} from "@react-navigation/native"
 import {capitalize} from "lodash"
 
-import axios from "axios";
 
-const baseURL = "http://192.168.1.117:8000/api/boletas";
-
-export default function MesaCard(props) {
-  const{mesas,boletas} = props
+export default function PedidosCard(props) {
+  const{pedidos} = props
   const navigation = useNavigation();
-  
 
-
- 
+  console.log(pedidos.name);
 
   const goToMenu = () => {
-
-    
-    /*  axios.post(baseURL, {
-        tables_id: mesas.number,
-        boleta_cod: boletas,
-        total: 0
-    
-      })
-      .then(function (response) {
-        console.log(response);
-      })
-      .catch(function (error) {
-        console.log(error);
-      }); */
-    
-      navigation.navigate("client",{number: mesas.number,boletaCod: boletas})
-    
-  
-    
 
   }
  
     return (
-      <TouchableWithoutFeedback onPress={goToMenu}>
+      <TouchableWithoutFeedback >
         <View style= {styles.card}>
           <View style={styles.spacing}>
             <View style = {styles.bgStyles}>
-              <Text style={styles.name1}>{capitalize(mesas.number)} </Text>
+              <Text style={styles.name1}> {capitalize(pedidos.name) } </Text>
 
             </View>
-            <Image source={{uri: mesas.image}} style= {styles.image} />
+            
 
           </View>
         </View>

@@ -2,25 +2,16 @@ import React from 'react'
 import { StyleSheet,Text,FlatList,Button} from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import {useNavigation} from "@react-navigation/native"
-import ProductCard from "./ProductCard"
+import PedidosCard from "./PedidosCard"
 
-export default function ProductList(props) {
-    const {products,boletaCod,mesa} = props
+export default function PedidosList(props) {
+    const {pedidos} = props
     const navigation = useNavigation();
 
     
-
+    const Pagar = () => {
     
-
-
-
-
-
-
-    
-    const creaBoleta = () => {
-    
-        navigation.navigate("carrito",{mesa: mesa,boletaCod: boletaCod})
+        
     
       }
 
@@ -30,16 +21,16 @@ export default function ProductList(props) {
     return (
         <SafeAreaView>
                     <FlatList 
-                data ={products}
-                numColumns={2}
+                data ={pedidos}
+                numColumns={1}
                 showsVerticalScrollIndicator={false}
-                keyExtractor={(product) => String(product.id)}
-                renderItem = {({item}) => <ProductCard product = {item} boletaCod= {boletaCod} />}
+                keyExtractor={(pedido) => String(pedido.id)}
+                renderItem = {({item}) => <PedidosCard pedidos = {item} />}
                 contentContainerStyle={styles.FlatListContentContainer}
 
                 />
 
-                <Button onPress={creaBoleta} title="Carrito" ></Button>
+                
 
 
         </SafeAreaView>
