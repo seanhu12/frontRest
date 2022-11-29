@@ -1,38 +1,29 @@
 import React from 'react'
 import { StyleSheet,Text,FlatList, Button} from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-
-
-import MesaCard from "./MesaCard"
-
-export default function MesaList(props) {
-  const {mesas,boletas} = props
+import EditProdCard from './EditProdCard'
 
 
 
 
-  
-  
 
- 
- 
+export default function EditProdList(props) {
+  const {category,product} = props 
+
+
     return (
       <SafeAreaView>
                 <FlatList
-            data={mesas}
-            numColumns= {2}
+            data={product}
+            numColumns= {1}
             showsVerticalScrollIndicator={false}
-            keyExtractor={(mesas) => String(mesas.id) }
-            renderItem= {({item}) => <MesaCard mesas = {item}  boletas={boletas}  />}
+            keyExtractor={(product) => String(product.id) }
+            renderItem= {({item}) => <EditProdCard prod = {item} cate={category} />}
             contentContainerStyle={styles.FlatListContentContainer}
            
             />
 
       </SafeAreaView> 
-
-     
-
-    
     )
   
 }
@@ -43,4 +34,3 @@ const styles = StyleSheet.create({
 
   }
 })
-

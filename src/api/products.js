@@ -1,9 +1,9 @@
 import {API_HOST} from "../utils/constants";
-
+import axios from "axios";
 
 export async function getProductApi(){
     try {
-       const url = `${API_HOST}products`;    
+       const url = `${API_HOST}/products`;    
         const response = await fetch(url);
         const result = await response.json();
         return result;   
@@ -11,4 +11,51 @@ export async function getProductApi(){
         throw error;
     }
 }
+
+export async function addProductApi(name,categoryid,description,image,price,amount) {
+
+
+  
+  
+    const response = axios.post(`${API_HOST}/products/`, {
+     name: name,
+     category_id: categoryid,
+     description: description,
+     price:price,
+     amount: amount,
+     image:image
+     })
+     .then(function (response) {
+       console.log(response);
+     })
+     .catch(function (error) {
+       console.log(error);
+     });
+
+ }
+
+ export async function updateProductApi(name,description,id,category_id,price,amount) {
+
+  console.log(name);
+  console.log(description);
+  console.log(id);
+  console.log(category_id);
+  console.log(price);
+  console.log(amount);
+  
+  const url = `${API_HOST}/products/${id}`;
+   const response = await axios
+   .patch(url, {
+     name: name,
+     description: description,
+     category_id: category_id,
+     price: price,
+     amount: amount
+   }, {
+       headers: { 'Content-type': 'application/json; charset=UTF-8' }
+   });
+
+   return response 
+}
+
 

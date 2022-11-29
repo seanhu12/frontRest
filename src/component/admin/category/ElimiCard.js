@@ -1,41 +1,34 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import { StyleSheet, View,Text,Image,TouchableWithoutFeedback } from 'react-native'
 import {useNavigation} from "@react-navigation/native"
 import {capitalize} from "lodash"
+import  RestaurantContext from "../../../RestaurantContext"
+import {DeleteCategoryApi} from "../../../api/category"
 
 import axios from "axios";
 
-const baseURL = "http://192.168.1.117:8000/api/boletas";
 
-export default function MesaCard(props) {
-  const{mesas,boletas} = props
+
+export default function ElimiCard(props) {
+
   const navigation = useNavigation();
-  
+  const {categorys} = props
 
+  const { category,setCategory} = useContext(RestaurantContext)
+  
+ 
 
  
 
-  const goToMenu = () => {
+  const goToMenu = async () => {
 
-    
-    /*  axios.post(baseURL, {
-        tables_id: mesas.number,
-        boleta_cod: boletas,
-        total: 0
-    
-      })
-      .then(function (response) {
+    setCategory(categorys)
+    try {
+        const response = await DeleteCategoryApi(categorys.id)
         console.log(response);
-      })
-      .catch(function (error) {
-        console.log(error);
-      }); */
-    
-      navigation.navigate("client",{number: mesas.number,boletaCod: boletas})
-    
-  
-    
-
+    } catch (error) {
+        throw error
+    }
   }
  
     return (
@@ -43,10 +36,9 @@ export default function MesaCard(props) {
         <View style= {styles.card}>
           <View style={styles.spacing}>
             <View style = {styles.bgStyles}>
-              <Text style={styles.name1}>{capitalize(mesas.number)} </Text>
+              <Text style={styles.name1}>{capitalize(categorys.name)} </Text>
 
             </View>
-            <Image source={{uri: mesas.image}} style= {styles.image} />
 
           </View>
         </View>
@@ -90,4 +82,3 @@ const styles = StyleSheet.create({
   }
   
 })
-

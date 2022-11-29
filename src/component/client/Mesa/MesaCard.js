@@ -1,28 +1,39 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import { StyleSheet, View,Text,Image,TouchableWithoutFeedback } from 'react-native'
 import {useNavigation} from "@react-navigation/native"
 import {capitalize} from "lodash"
+import RestaurantContext from '../../../RestaurantContext'
 
 
-export default function PedidosCard(props) {
-  const{pedidos} = props
+
+export default function MesaCard(props) {
+  const{mesas} = props
   const navigation = useNavigation();
+  
+  const {mesa,setMesa} = useContext(RestaurantContext)
 
-  console.log(pedidos.name);
+ 
 
   const goToMenu = () => {
+
+    setMesa(mesas)
+
+    
+    navigation.navigate("cate",)
+    
 
   }
  
     return (
-      <TouchableWithoutFeedback >
+      <TouchableWithoutFeedback onPress={goToMenu}>
         <View style= {styles.card}>
           <View style={styles.spacing}>
             <View style = {styles.bgStyles}>
-              <Text style={styles.name1}> {capitalize(pedidos.name) } </Text>
-
+              <Text style={styles.name1}>{capitalize(mesas.number)} </Text>
             </View>
-            
+
+            <Image source={{ uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQeJoIqm294W06VXC6CivT9KjbCyGiVGJzS5QgJRn0kxToVELu4s3Qxw7lt1NqtCtI48lk&usqp=CAU" }} style={styles.image} />
+
 
           </View>
         </View>

@@ -1,4 +1,5 @@
 import {API_HOST} from "../utils/constants";
+import axios from "axios";
 
 
 export async function getPedidosApi(){
@@ -11,5 +12,27 @@ export async function getPedidosApi(){
         throw error;
     }
 }
+export async function addProductApi(carro,mesaid,boleta_id) {
+
+    console.log(carro.id);
+    console.log(mesaid);
+
+  
+    axios.post(`${API_HOST}/pedidos/`, {
+     table_id: mesaid,
+     product_id: carro.id,
+     boleta_id: boleta_id,
+     estado: carro.status,
+     cant: 1,
+
+     })
+     .then(function (response) {
+       console.log(response);
+     })
+     .catch(function (error) {
+       console.log(error);
+     }); 
+
+ }
 
 
