@@ -22,6 +22,7 @@ export default function PedidosCard(props) {
             <View style = {styles.bgStyles}>
               <Text style={styles.name1}> {capitalize(carro.name) } </Text>
               <Text style={styles.name1}> {capitalize(carro.price) } </Text>
+              <Text style={styles.name1}> cantidad: {capitalize(carro.cant) } </Text>
 
             </View>
             

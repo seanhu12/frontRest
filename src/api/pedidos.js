@@ -23,7 +23,7 @@ export async function addProductApi(carro,mesaid,boleta_id) {
      product_id: carro.id,
      boleta_id: boleta_id,
      estado: carro.status,
-     cant: 1,
+     cant: carro.cant,
 
      })
      .then(function (response) {

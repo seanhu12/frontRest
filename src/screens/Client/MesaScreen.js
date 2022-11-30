@@ -4,7 +4,7 @@ import React, {useState,useEffect,useContext} from 'react'
 import {getMesaApi} from "../../api/mesas"
 
 import MesaList from '../../component/client/Mesa/MesaList';
-import RestaurantContext from '../../RestaurantContext';
+
 
 
 
@@ -13,7 +13,6 @@ export default function MesaScreen() {
 
     const [mesas,setmesas] = useState([])
     
-
 
     useEffect(() => {
         (async () => {

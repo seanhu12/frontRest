@@ -22,7 +22,7 @@ export default function PedidosList(props) {
 
     useEffect(()=>{
       for (let index = 0; index < carr.length; index++){
-        b = b + parseInt(carr[index].price) 
+        b = b + (parseInt(carr[index].price)*carro[index].cant)
       }
 
       settotal(b)
