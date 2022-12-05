@@ -58,4 +58,13 @@ export async function addProductApi(name,categoryid,description,image,price,amou
    return response 
 }
 
+export async function DeleteProduct(id) {
+
+
+  const url = `${API_HOST}/products/${id}`;
+  const response =  await axios.delete(url);
+                    
+      return response; 
+}
+
 

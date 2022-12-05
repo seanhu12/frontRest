@@ -16,6 +16,7 @@ import AgProduct from "../screens/admin/product/AgProduct";
 import listCate from "../screens/admin/product/listCate";
 import EdProduct from "../screens/admin/product/EdProduct";
 import FormEditProd from "../screens/admin/product/FormEditProd";
+import ElProducto from "../screens/admin/product/ElProduct";
 
 const Stack = createStackNavigator();
 
@@ -42,8 +43,7 @@ export default function AdminNavigation(){
 
 
             <Stack.Screen name="agregarProd" component={AgProduct} options={{title: "Productos"}} />
-
-
+            <Stack.Screen name="elimProd" component={ElProducto} options={{title: "Productos"}} />
 
             <Stack.Screen name="orders" component={AdminOrders} options={{title: "Pedidos"}} />
         </Stack.Navigator>

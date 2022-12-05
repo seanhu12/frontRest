@@ -10,7 +10,7 @@ export default function MesaCard(props) {
   const{mesas} = props
   const navigation = useNavigation();
   
-  const {mesa,setMesa} = useContext(RestaurantContext)
+  const {setMesa} = useContext(RestaurantContext)
 
  
 
@@ -19,7 +19,7 @@ export default function MesaCard(props) {
     setMesa(mesas)
 
     
-    navigation.navigate("cate",)
+    navigation.navigate("client",)
     
 
   }

@@ -24,6 +24,8 @@ export default function AdminProduct(props) {
 
   }
   const eliminar = () => {
+    navigation.navigate('elimProd');
+
     
 
   }

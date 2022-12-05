@@ -20,7 +20,7 @@ export default function MesaList(props) {
       <SafeAreaView>
                 <FlatList
             data={mesas}
-            numColumns= {1}
+            numColumns= {2}
             showsVerticalScrollIndicator={false}
             keyExtractor={(mesas) => String(mesas.id) }
             renderItem= {({item}) => <MesaCard mesas = {item} />}

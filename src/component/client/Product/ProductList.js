@@ -1,23 +1,31 @@
-import React ,{useContext,useState} from 'react'
+import React ,{useContext,useEffect,useState} from 'react'
 import { StyleSheet,Text,FlatList, TouchableWithoutFeedback,View,Image} from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import {useNavigation} from "@react-navigation/native"
 import RestaurantContext from '../../../RestaurantContext'
 import { capitalize } from "lodash"
 import { Button, TextInput, Modal, Portal } from 'react-native-paper';
+import DropDownPicker from 'react-native-dropdown-picker';
+
 
 export default function ProductList(props) {
     const containerStyle = {backgroundColor: 'white', padding: 20};
-    const {products} = props
+    const {products, cat} = props
+ 
+
     const navigation = useNavigation();
     
+   
+    const {carro,setCarro } = useContext(RestaurantContext)
+    const {mesa} = useContext(RestaurantContext)
+    const [newProduct,setNewProd] = useState([products])
+    
+ 
 
-    const {category,setCategory} = useContext(RestaurantContext)
-    const { carro, setCarro } = useContext(RestaurantContext)
-    const { mesa, setMesa } = useContext(RestaurantContext)
 
-    const newProduct = products.filter((carro) => carro.category_id == category.id)
 
+    
+    
     const [viewCont,setViewCont] = useState(false)
     const [cant,setCant] = useState('1');
 
@@ -27,21 +35,52 @@ export default function ProductList(props) {
     const [name,setName] = useState();
     const [price,setPrice] = useState();
 
+    const [open, setOpen] = useState(false);
+    const [value, setValue] = useState(null);
+    const [items, setItems] = useState([{label: 'todos', value:'0'}]);
+
+    useEffect(()=>{
+
+        var j=0;
+    
+        for (var id in cat){
+                j++;
+        }
+            
+        for (let index = 0; index < j; index++) {
+               items.push({label: cat[index].name,value: cat[index].id})
+        }
+        
+    },[cat])
+
+
+
+
+    
+
+
+    const filter = () => {     
+        if (value == 0){
+            setNewProd(products)  
+
+        }else{
+            setNewProd(products.filter((prod) => prod.category_id == value ))    
+        }
+    }
+
+   
+   
+       
 
     const goToProduct = (item) => {
         setViewCont(true)
-        
         setid(item.id)
         setCate(item.category_id)
         setCode(item.code)
         setName(item.name)
         setPrice(item.price)
-        
-    
     }
-
     const Order = () => {
-
         const order = {
             id: id,
             table: mesa.id,
@@ -57,15 +96,10 @@ export default function ProductList(props) {
         setViewCont(false)
         setCant('1')
 
-    }
-
-    
+    }  
     const createBolet = () => {
-    
         navigation.navigate("carrito")
-    
     }
-
     const Item = ({item}) => (
         <TouchableWithoutFeedback onPress={() => goToProduct(item)} >
         <View style={styles.card}>
@@ -83,46 +117,49 @@ export default function ProductList(props) {
        </TouchableWithoutFeedback>
 
     )
-
     const renderItem = ({item}) => (
         <Item item = {item} /> 
     )
 
 
-
-    
     return (
-        <SafeAreaView>
-                    <FlatList 
+        <SafeAreaView >
+                <DropDownPicker
+                placeholder="Seleccion Categoria"
+                open={open}
+                value={value}
+                items={items}
+                setOpen={setOpen}
+                setValue={setValue}
+                setItems={setItems}
+                onChangeValue ={filter}
+                />
+
+        
+                <FlatList 
                 data ={newProduct}
                 numColumns={2}
                 showsVerticalScrollIndicator={false}
                 keyExtractor={(product) => String(product.id)}
                 renderItem = {renderItem}
                 contentContainerStyle={styles.FlatListContentContainer}
-
                 />
+
                 <Portal>
 
-                <Modal visible= {viewCont} contentContainerStyle={containerStyle}> 
-                    <TextInput
-                        label="Cantidad"
-                        value={cant}
-                        onChangeText={cant => setCant(cant)}
+                    <Modal visible= {viewCont} contentContainerStyle={containerStyle}> 
+                        <TextInput
+                            label="Cantidad"
+                            value={cant}
+                            onChangeText={cant => setCant(cant)}
                         />
-
-
                         <Button  mode="contained" onPress={() => Order()}>
-                            Pedir
+                        Pedir
                         </Button>
                         <Button  mode="contained" onPress={() => setViewCont(false)}>
-                                Atras
+                        Atras
                         </Button>
-
-
-                </Modal>
-
-
+                    </Modal>
                 </Portal>
                 
 

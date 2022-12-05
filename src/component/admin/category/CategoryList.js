@@ -12,7 +12,7 @@ export default function CategoryList(props) {
       <SafeAreaView>
                 <FlatList
             data={category}
-            numColumns= {1}
+            numColumns= {2}
             showsVerticalScrollIndicator={false}
             keyExtractor={(category) => String(category.id) }
             renderItem= {({item}) => <CategoryCard categorys = {item} />}

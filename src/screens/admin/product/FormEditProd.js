@@ -3,7 +3,7 @@ import {Text,TextInput,SafeAreaView,StyleSheet, Image,Platform,View,Button } fro
 import {useNavigation} from "@react-navigation/native"
 import RestaurantContext from '../../../RestaurantContext';
 import {updateProductApi} from "../../../api/products"
-
+import DropDownPicker from 'react-native-dropdown-picker';
 
 
 export default function FormEditProd(props) {
@@ -23,7 +23,31 @@ export default function FormEditProd(props) {
   const [nombre,setNombre] = useState();
   const [cat, setcat]= useState();
 
+  const [items,setItems] = useState([{label:'Ninguna',value:'ninguna'}]);
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState(null);
+
+
+
   const navigation = useNavigation();
+
+  useEffect(()=>{
+    categ()
+  },[])
+
+  const categ = () => {
+    var j=0;
+    console.log(category);
+    for(var id in category){
+            j++;
+    }
+    
+    for (let index = 0; index < j; index++) {
+      
+       items.push({label: category[index].name,value: category[index].name})
+    }
+
+  }
 
 
   const  editar  = async () =>{
@@ -34,11 +58,13 @@ export default function FormEditProd(props) {
               j++;
       }
 
-      if(!nombre || !description || !cat || !price || !cant ){
+      if(!nombre || !description  || !price || !cant ){
         alert("Rellene todos los espacion porfavor")
       }else{
         for (let index = 0; index < j; index++) {
-          if(category[index].name ==  cat){
+          console.log(value);
+          
+          if(category[index].name ==  value){
             try {
               const Response = await updateProductApi(nombre,description,product.id,category[index].id,price,cant)
               z = 1
@@ -54,11 +80,9 @@ export default function FormEditProd(props) {
         }
         
           if (z == 0){
-            var s = ""
-            for (let index = 0; index < j; index++) {
-              s = s + " "+ category[index].name
-            }
-            alert("Categoria incorrecta porfavor ingrese alguna de las siguientes: " + s)
+            
+       
+            alert("Seleccione Alguna Categoria ")
           }       
       }
       
@@ -88,15 +112,15 @@ export default function FormEditProd(props) {
         value={description}
       
       />
-      <TextInput
-         style={styles.input}
-         
-        placeholder={"Categoria"}
-        keyboardType="default"
-        onChangeText={setcat}
-        value={cat}
-      
-      />
+      <DropDownPicker
+      placeholder="Seleccion Categoria"
+      open={open}
+      value={value}
+      items={items}
+      setOpen={setOpen}
+      setValue={setValue}
+      setItems={setItems}
+     />
       <TextInput
          style={styles.input}
          
