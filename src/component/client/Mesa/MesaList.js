@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet,Text,FlatList, Button} from 'react-native'
+import { StyleSheet,Text,FlatList, ActivityIndicator} from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 
@@ -25,6 +25,15 @@ export default function MesaList(props) {
             keyExtractor={(mesas) => String(mesas.id) }
             renderItem= {({item}) => <MesaCard mesas = {item} />}
             contentContainerStyle={styles.FlatListContentContainer}
+            ListFooterComponent={
+              mesas.length == 0 && (
+                <ActivityIndicator
+                  size="large"
+                  style={styles.spinner}
+                  color="#AEAEAE"
+                />
+              )
+            }
            
             />
 
@@ -41,6 +50,10 @@ const styles = StyleSheet.create({
   FlatListContentContainer: {
       paddingHorizontal: 5,
 
-  }
+  },
+  spinner: {
+    marginTop: 20,
+    marginBottom: Platform.OS === "android" ? 90 : 60,
+  },
 })
 

@@ -1,5 +1,5 @@
 import React ,{useContext,useEffect,useState} from 'react'
-import { StyleSheet,Text,FlatList, TouchableWithoutFeedback,View,Image} from 'react-native'
+import { StyleSheet,Text,FlatList, TouchableWithoutFeedback,View,Image,ActivityIndicator} from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import {useNavigation} from "@react-navigation/native"
 import RestaurantContext from '../../../RestaurantContext'
@@ -18,7 +18,7 @@ export default function ProductList(props) {
    
     const {carro,setCarro } = useContext(RestaurantContext)
     const {mesa} = useContext(RestaurantContext)
-    const [newProduct,setNewProd] = useState([products])
+    const [newProduct,setNewProd] = useState([])
     
  
 
@@ -27,6 +27,7 @@ export default function ProductList(props) {
     
     
     const [viewCont,setViewCont] = useState(false)
+    const [load,setload] = useState(false)
     const [cant,setCant] = useState('1');
 
     const [id,setid] = useState();
@@ -39,7 +40,15 @@ export default function ProductList(props) {
     const [value, setValue] = useState(null);
     const [items, setItems] = useState([{label: 'todos', value:'0'}]);
 
+
     useEffect(()=>{
+
+        if(newProduct.length == 0){
+            setNewProd(products)
+
+        }
+       
+
 
         var j=0;
     
@@ -67,6 +76,7 @@ export default function ProductList(props) {
             setNewProd(products.filter((prod) => prod.category_id == value ))    
         }
     }
+
 
    
    
@@ -97,6 +107,7 @@ export default function ProductList(props) {
         setCant('1')
 
     }  
+
     const createBolet = () => {
         navigation.navigate("carrito")
     }
@@ -133,17 +144,30 @@ export default function ProductList(props) {
                 setValue={setValue}
                 setItems={setItems}
                 onChangeValue ={filter}
-                />
 
-        
-                <FlatList 
+                />
+                
+              <FlatList 
                 data ={newProduct}
                 numColumns={2}
                 showsVerticalScrollIndicator={false}
                 keyExtractor={(product) => String(product.id)}
                 renderItem = {renderItem}
                 contentContainerStyle={styles.FlatListContentContainer}
+                onEndReachedThreshold={0.1}
+                ListFooterComponent={
+                    newProduct.length == 0 && (
+                      <ActivityIndicator
+                        size="large"
+                        style={styles.spinner}
+                        color="#AEAEAE"
+                      />
+                    )
+                  }
                 />
+
+        
+             
 
                 <Portal>
 
@@ -210,5 +234,9 @@ const styles = StyleSheet.create({
         right: 50,
         width: 90,
         height: 90,
-    }
+    },
+    spinner: {
+        marginTop: 20,
+        marginBottom: Platform.OS === "android" ? 90 : 60,
+      },
 })

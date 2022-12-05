@@ -1,5 +1,5 @@
 import React,{useState,useEffect} from 'react'
-import { StyleSheet,Text,FlatList,Image,TouchableWithoutFeedback,View} from 'react-native'
+import { StyleSheet,Text,FlatList,Image,TouchableWithoutFeedback,View,ActivityIndicator} from 'react-native'
 import { Button, Modal, Portal } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context'
 import {DeleteProduct} from "../../../api/products"
@@ -71,6 +71,15 @@ const renderItem = ({item}) => (
             keyExtractor={(products) => String(products.id) }
             renderItem= {renderItem}
             contentContainerStyle={styles.FlatListContentContainer}
+            ListFooterComponent={
+                products.length == 0 && (
+                  <ActivityIndicator
+                    size="large"
+                    style={styles.spinner}
+                    color="#AEAEAE"
+                  />
+                )
+              }
            
             />
              <Portal>
@@ -133,5 +142,9 @@ image:{
     right: 50,
     width: 90,
     height: 90,
-}
+},
+spinner: {
+  marginTop: 20,
+  marginBottom: Platform.OS === "android" ? 90 : 60,
+},
 })
