@@ -6,7 +6,7 @@ import AdmiScreen from "../screens/admin/AdmiScreen"
 
 import AdminCategory from "../screens/admin/AdminCategory";
 
-import AdminOrders from "../screens/admin/AdminOrders"
+
 import AdminProducts from "../screens/admin/AdminProduct";
 import AgCate from "../screens/admin/category/AgCate";
 import EdCate from "../screens/admin/category/EdCate"
@@ -45,7 +45,7 @@ export default function AdminNavigation(){
             <Stack.Screen name="agregarProd" component={AgProduct} options={{title: "Productos"}} />
             <Stack.Screen name="elimProd" component={ElProducto} options={{title: "Productos"}} />
 
-            <Stack.Screen name="orders" component={AdminOrders} options={{title: "Pedidos"}} />
+            
         </Stack.Navigator>
 
     )

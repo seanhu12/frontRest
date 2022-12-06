@@ -27,15 +27,6 @@ export default function AdmiScreen(props) {
     
 
   }
-  const pedido = () => {
-
-    
-
-    
-    navigation.navigate("orders",)
-    
-
-  }
 
 
     return (
@@ -44,14 +35,11 @@ export default function AdmiScreen(props) {
         <Button  mode="contained" onPress={categoria} style= {styles.top} >
               Categoria
            </Button>
-           <Divider />
-           <Button  mode="contained" onPress={pruducto}  style= {styles.top} >
+           
+           <Button  mode="contained" onPress={pruducto}  style= {styles.top2} >
               Producto
            </Button>
-           <Divider />
-           <Button  mode="contained" onPress={pedido}  style= {styles.top}>
-              Pedido
-           </Button>   
+    
            <Divider /> 
    
         
@@ -73,6 +61,17 @@ const styles = StyleSheet.create({
     borderWidth: 5,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
+    top: 70
+
+  },
+  top2: {
+    
+    borderWidth: 5,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    bottom: 50
+  
+
   },
 
 });
