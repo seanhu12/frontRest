@@ -10,6 +10,7 @@ import DropDownPicker from 'react-native-dropdown-picker';
 
 export default function ProductList(props) {
     const containerStyle = {backgroundColor: 'white', padding: 20};
+
     const {products, cat} = props
  
 
@@ -27,7 +28,6 @@ export default function ProductList(props) {
     
     
     const [viewCont,setViewCont] = useState(false)
-    const [load,setload] = useState(false)
     const [cant,setCant] = useState('1');
 
     const [id,setid] = useState();
@@ -45,11 +45,8 @@ export default function ProductList(props) {
 
         if(newProduct.length == 0){
             setNewProd(products)
-
         }
        
-
-
         var j=0;
     
         for (var id in cat){
@@ -62,12 +59,6 @@ export default function ProductList(props) {
         
     },[cat])
 
-
-
-
-    
-
-
     const filter = () => {     
         if (value == 0){
             setNewProd(products)  
@@ -76,11 +67,6 @@ export default function ProductList(props) {
             setNewProd(products.filter((prod) => prod.category_id == value ))    
         }
     }
-
-
-   
-   
-       
 
     const goToProduct = (item) => {
         setViewCont(true)
@@ -128,6 +114,7 @@ export default function ProductList(props) {
        </TouchableWithoutFeedback>
 
     )
+    
     const renderItem = ({item}) => (
         <Item item = {item} /> 
     )
@@ -144,7 +131,6 @@ export default function ProductList(props) {
                 setValue={setValue}
                 setItems={setItems}
                 onChangeValue ={filter}
-
                 />
                 
               <FlatList 
@@ -165,9 +151,6 @@ export default function ProductList(props) {
                     )
                   }
                 />
-
-        
-             
 
                 <Portal>
 

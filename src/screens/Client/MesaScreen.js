@@ -15,11 +15,8 @@ export default function MesaScreen() {
     
 
     useEffect(() => {
-        (async () => {
-           
-        
-            await loadMesa();
-            
+        (async () => {   
+            await loadMesa(); 
         })()
     },[])
 

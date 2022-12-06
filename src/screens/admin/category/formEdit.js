@@ -3,83 +3,68 @@ import {Text,TextInput,SafeAreaView,StyleSheet, Image,Platform,View,Button } fro
 import {useNavigation} from "@react-navigation/native"
 import RestaurantContext from '../../../RestaurantContext';
 
-import {updateCategoryApi} from "../../../api/category"
+import {updateCategoryApi} from "../../../api/category";
+import {useFormik} from "formik";
+import * as Yup from "yup";
 
 export default function formEdit() {
-  const [text2, setTex2]= useState();
-  const [text,setText] = useState();
   const navigation = useNavigation();
 
   const { category,setCategory} = useContext(RestaurantContext)
 
- 
+  const formik = useFormik({
+    initialValues: {cate: category.name, description: category.description},
+    validationSchema: Yup.object(validationSchema()),
+    validateOnChange: false,
+    onSubmit: async (formValue) => {
+      console.log(formValue);
 
- 
+      try {
 
-
-  const  editar  = async () =>{
-
-
-    
-
-    try {
-
-        if(!text && text2){
-             const response = await updateCategoryApi(category.name,text2,category.id);
-             alert("Categoria  actualizada con exito");
-            
-             
-        }else if(!text2  ){
-            const response = await updateCategoryApi(text,category.description,category.id);
-            alert("Categoria  actualizada con exito");
-           
-
-        }else{
-            const response = await updateCategoryApi(text,text2,category.id);
-            alert("Categoria  actualizada con exito");
-
-        }
-
+        const response = await updateCategoryApi(formValue.cate,formValue.description,category.id);
+        alert("Categoria  actualizada con exito");
         navigation.navigate('category')
      
-
-      
-   } catch (error) {
+      } catch (error) {
         console.error(error);
         alert("Error .....");
-   }
-  }
-    
+      }
+    }
+  })
    
   return (
     <SafeAreaView >
          <TextInput
-         style={styles.input}
-         
-        placeholder={category.name}
-        keyboardType="default"
-        onChangeText={setText}
-        value={text}
-       
-    
-        
+        style={styles.input}
+        placeholder="Categoria"
+        autoCapitalize='none'
+        value={formik.values.cate}
+        onChangeText={(text)=> formik.setFieldValue('cate', text)}
       />
-               <TextInput
-         style={styles.input}
-         
-        placeholder={category.description}
-        keyboardType="default"
-        onChangeText={setTex2}
-        value={text2}
-      
+        <TextInput
+        style={styles.input}
+        placeholder="Descripcion"
+        autoCapitalize='none'
+        value={formik.values.description}
+        onChangeText={(text)=> formik.setFieldValue('description', text)}
       />
-       
-      
-      <Button title="Editar Categoria" onPress={editar} />
+      <Button title="Editar Categoria" onPress={formik.handleSubmit}/>
+
+      <Text style= {styles.errors}>{formik.errors.cate} </Text>
+      <Text style= {styles.errors}>{formik.errors.description} </Text>
 
     </SafeAreaView>
   )
+
+  function validationSchema () {
+      return {
+        cate: Yup.string().required("Rellene todos los campos porfavor"),
+        description: Yup.string().required("Rellene todos los campos porfavor")
+      }
+  }
 }
+
+
 
 const styles = StyleSheet.create({
     input: {
@@ -87,6 +72,12 @@ const styles = StyleSheet.create({
       margin: 12,
       borderWidth: 1,
       padding: 10,
+      borderRadius: 10,
     },
+    errors: {
+      textAlign: "center",
+      color: "#f00",
+      marginTop: 20,
+    }
   });
   

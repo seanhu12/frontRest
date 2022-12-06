@@ -36,13 +36,7 @@ export async function addProductApi(name,categoryid,description,image,price,amou
 
  export async function updateProductApi(name,description,id,category_id,price,amount) {
 
-  console.log(name);
-  console.log(description);
-  console.log(id);
-  console.log(category_id);
-  console.log(price);
-  console.log(amount);
-  
+
   const url = `${API_HOST}/products/${id}`;
    const response = await axios
    .patch(url, {

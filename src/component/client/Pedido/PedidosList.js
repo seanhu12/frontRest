@@ -79,6 +79,7 @@ export default function PedidosList(props) {
 
                 />
                 <Text>El total es de: {total} </Text>
+                
                 <Button title='Pedir' onPress={Pagar}/>
                 <Button title='Cancelar' onPress={eliminar}/>
 

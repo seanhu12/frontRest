@@ -18,16 +18,6 @@ export default function ClientCarritoScreen(props){
 
 
   const newProduct = carro.filter((carro) => carro.table == mesa.id)
-
-
-  
-
-
-
-
-  
-  
-
   
  
   

@@ -45,6 +45,7 @@ export default function ClientScreen(){
       console.error(error);
     }
   }
+  
   return (
     <SafeAreaView>
        <ProductList products = {products} cat= {category} />

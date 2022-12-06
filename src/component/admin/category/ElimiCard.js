@@ -22,10 +22,13 @@ export default function ElimiCard(props) {
 
   const goToMenu = async () => {
 
+
+
     setCategory(categorys)
     try {
         const response = await DeleteCategoryApi(categorys.id)
-        console.log(response);
+        navigation.navigate('admin')
+        alert('Categoria Eliminada')
     } catch (error) {
         throw error
     }

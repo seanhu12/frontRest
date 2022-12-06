@@ -36,7 +36,7 @@ export default function AdmiScreen(props) {
     
 
   }
-  const image = { uri: "https://i.pinimg.com/564x/c1/75/5d/c1755d4c69779b02e5736907e5467652.jpg" };
+
 
     return (
       <View style= {styles.container}>

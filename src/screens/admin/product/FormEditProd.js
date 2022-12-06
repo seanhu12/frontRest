@@ -4,6 +4,8 @@ import {useNavigation} from "@react-navigation/native"
 import RestaurantContext from '../../../RestaurantContext';
 import {updateProductApi} from "../../../api/products"
 import DropDownPicker from 'react-native-dropdown-picker';
+import {useFormik} from "formik";
+import * as Yup from "yup";
 
 
 export default function FormEditProd(props) {
@@ -15,17 +17,49 @@ export default function FormEditProd(props) {
   const {product,setProduct} = useContext(RestaurantContext)
   const {category,setCategory} = useContext(RestaurantContext)
 
-  const Array = [category]
+ 
 
-  const [description, setDescripcion]= useState();
-  const [cant,setCant] = useState();
-  const [price,setPrice] = useState();
-  const [nombre,setNombre] = useState();
-  const [cat, setcat]= useState();
 
   const [items,setItems] = useState([{label:'Ninguna',value:'ninguna'}]);
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
+
+  const formik = useFormik({
+    initialValues: {name: product.name, description: product.description,price: product.price,amount: product.amount},
+    validationSchema: Yup.object(validationSchema()),
+    validateOnChange: false,
+    onSubmit: async (formValue) => {     
+      var z = 0;
+      var j=0;
+      for(var id in category){
+              j++;
+      }
+      for (let index = 0; index < j; index++) {
+        
+        
+        if(category[index].name ==  value){
+          console.log(category[index].name);
+          try {
+            const Response = await updateProductApi(formValue.name,formValue.description,product.id,category[index].id,formValue.price,formValue.amount)
+            z = 1
+            alert("Actualizado Con exito")
+            navigation.navigate('product')
+  
+          } catch (error) {
+            alert("Error de conexion")
+            
+          }
+        }
+
+      }
+      if (z == 0){
+            
+       
+        alert("Seleccione Alguna Categoria ")
+      }       
+
+    }
+  })
 
 
 
@@ -50,109 +84,83 @@ export default function FormEditProd(props) {
   }
 
 
-  const  editar  = async () =>{
-    
-      var z = 0;
-      var j=0;
-      for(var id in category){
-              j++;
-      }
-
-      if(!nombre || !description  || !price || !cant ){
-        alert("Rellene todos los espacion porfavor")
-      }else{
-        for (let index = 0; index < j; index++) {
-          console.log(value);
-          
-          if(category[index].name ==  value){
-            try {
-              const Response = await updateProductApi(nombre,description,product.id,category[index].id,price,cant)
-              z = 1
-              alert("Actualizado Con exito")
-              navigation.navigate('product')
-    
-            } catch (error) {
-              alert("Error de conexion")
-              
-            }
-          }
-          
-        }
-        
-          if (z == 0){
-            
-       
-            alert("Seleccione Alguna Categoria ")
-          }       
-      }
-      
-    
-
-
-  }
+  
     
    
   return (
     <SafeAreaView >
+       
+        <DropDownPicker
+        placeholder="Seleccion Categoria"
+        open={open}
+        value={value}
+        items={items}
+        setOpen={setOpen}
+        setValue={setValue}
+        setItems={setItems}
+      />
+       <TextInput
+         style={styles.input}
+         
+        placeholder="Nombre"
+        autoCapitalize='none'
+        value={formik.values.name}
+        onChangeText={(text)=> formik.setFieldValue('name', text)}
+      />
+       <TextInput
+        style={styles.input}
+        placeholder="Descripcion"
+        autoCapitalize='none'
+        value={formik.values.description}
+        onChangeText={(text)=> formik.setFieldValue('description', text)}
+      />
+       <TextInput
+        style={styles.input}
+        placeholder="Precio"
+        autoCapitalize='none'
+        value={formik.values.price}
+        onChangeText={(text)=> formik.setFieldValue('price', text)}
+      />
          <TextInput
-         style={styles.input}
-         
-        placeholder={product.name}
-        keyboardType="default"
-        onChangeText={setNombre}
-        value={nombre}
-        
-      />
-        <TextInput
-         style={styles.input}
-         
-        placeholder={product.description}
-        keyboardType="default"
-        onChangeText={setDescripcion}
-        value={description}
-      
-      />
-      <DropDownPicker
-      placeholder="Seleccion Categoria"
-      open={open}
-      value={value}
-      items={items}
-      setOpen={setOpen}
-      setValue={setValue}
-      setItems={setItems}
-     />
-      <TextInput
-         style={styles.input}
-         
-        placeholder={product.price}
-        keyboardType="numeric"
-        onChangeText={setPrice}
-        value={price}
-      
-      />
-      <TextInput
-         style={styles.input}
-         
-        placeholder={"Cantidad"}
-        keyboardType="numeric"
-        onChangeText={setCant}
-        value={cant}
-      
+        style={styles.input}
+        placeholder="Cantidad"
+        autoCapitalize='none'
+        value={formik.values.amount}
+        onChangeText={(text)=> formik.setFieldValue('amount', text)}
       />
        
       
-      <Button title="Editar Producto" onPress={editar} />
+      <Button title="Editar Producto" onPress={formik.handleSubmit} />
+
+      <Text style= {styles.errors}>{formik.errors.name} </Text>
+      <Text style= {styles.errors}>{formik.errors.description} </Text>
+      <Text style= {styles.errors}>{formik.errors.price} </Text>
+      <Text style= {styles.errors}>{formik.errors.amount} </Text>
 
     </SafeAreaView>
   )
 }
+function validationSchema () {
+  return {
+    name: Yup.string().required("Falta rellenar el nombre"),
+    description: Yup.string().required("Falta rellenar la descripcion"),
+    price: Yup.number().typeError("El precio tiene que ser un valor numerico").required("Falta rellenar el Precio"),
+    amount: Yup.number().typeError("La cantidad tiene que ser un valor numerico").required("Falta rellenar la cantidad")
+  }
+}
 
 const styles = StyleSheet.create({
-    input: {
-      height: 40,
-      margin: 12,
-      borderWidth: 1,
-      padding: 10,
-    },
+  input: {
+    height: 40,
+    margin: 12,
+    borderWidth: 1,
+    padding: 10,
+    borderRadius: 10,
+  },
+  errors: {
+    textAlign: "center",
+    color: "#f00",
+    marginTop: 20,
+  }
   });
   
