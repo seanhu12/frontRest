@@ -6,6 +6,7 @@ import {addProductApi} from "../../../api/pedidos"
 import {addBoletaApi,getBoletaaApi} from "../../../api/boletas"
 import PedidosCard from "./PedidosCard"
 import RestaurantContext from '../../../RestaurantContext'
+import { log } from 'react-native-reanimated'
 
 
 export default function PedidosList(props) {
@@ -17,17 +18,22 @@ export default function PedidosList(props) {
     const {carro,setCarro} = useContext(RestaurantContext)
     const {total,settotal} = useContext(RestaurantContext)
     
+    const [idbolet,setIdBolet] = useState([])
 
     var b = Number('0')
 
     useEffect(()=>{
+
       for (let index = 0; index < carr.length; index++){
         b = b + (parseInt(carr[index].price)*carro[index].cant)
       }
 
       settotal(b)
+
        
     },[])
+
+
     
     const Pagar = async () => {
 
@@ -35,11 +41,17 @@ export default function PedidosList(props) {
 
       await addBoletaApi(total,mesa.id)
       const response = await getBoletaaApi()
+      console.log(response.length);
+       for (let i = 0; i < response.length; i++) {
+          idBol = response[i].id      
+        }
 
-      for (let i = 0; i < response.length; i++) {
-         idBol = response[i].id 
-      }
+
+        
       console.log(idBol);
+
+      
+      
       
       for (let index = 0; index < carr.length; index++) {
          try {

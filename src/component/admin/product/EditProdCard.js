@@ -23,16 +23,17 @@ export default function EditProdCard(props) {
  
 
  
-
-  const goToMenu = async () => {
-    setProduct(prod)
-    setCategory(cate)
-     navigation.navigate('formEditProd',category)
+ //Guarda la categoria y el producto en un usecontex y redirecciona al form
+  const goToForm = async () => {
+    
+    setProduct(prod);
+    setCategory(cate);
+     navigation.navigate('formEditProd')
 
   }
  
     return (
-        <TouchableWithoutFeedback onPress={goToMenu} >
+        <TouchableWithoutFeedback onPress={goToForm} >
         <View style={styles.card}>
             <View style={styles.spacing}>
                 <View style={styles.bgStyles}>
@@ -49,6 +50,7 @@ export default function EditProdCard(props) {
   
 }
 
+//estilos correspondientes
 const styles = StyleSheet.create({
   card: {
       flex:1,

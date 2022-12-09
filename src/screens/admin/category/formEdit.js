@@ -26,9 +26,11 @@ export default function formEdit() {
         navigation.navigate('category')
      
       } catch (error) {
-        console.error(error);
-        alert("Error .....");
+        
+        alert("Existe otra categoria con ese nombre");
       }
+
+      
     }
   })
    
@@ -41,6 +43,7 @@ export default function formEdit() {
         value={formik.values.cate}
         onChangeText={(text)=> formik.setFieldValue('cate', text)}
       />
+      <Text style= {styles.errors}>{formik.errors.cate} </Text>
         <TextInput
         style={styles.input}
         placeholder="Descripcion"
@@ -48,18 +51,19 @@ export default function formEdit() {
         value={formik.values.description}
         onChangeText={(text)=> formik.setFieldValue('description', text)}
       />
+      <Text style= {styles.errors}>{formik.errors.description} </Text>
       <Button title="Editar Categoria" onPress={formik.handleSubmit}/>
 
-      <Text style= {styles.errors}>{formik.errors.cate} </Text>
-      <Text style= {styles.errors}>{formik.errors.description} </Text>
+
+      
 
     </SafeAreaView>
   )
 
   function validationSchema () {
       return {
-        cate: Yup.string().required("Rellene todos los campos porfavor"),
-        description: Yup.string().required("Rellene todos los campos porfavor")
+        cate: Yup.string().required("Rellene el nombre porfavot"),
+        description: Yup.string().required("Rellene la descripcion porfavor")
       }
   }
 }

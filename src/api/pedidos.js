@@ -14,8 +14,6 @@ export async function getPedidosApi(){
 }
 export async function addProductApi(carro,mesaid,boleta_id) {
 
-    console.log(carro.id);
-    console.log(mesaid);
 
   
     axios.post(`${API_HOST}/pedidos/`, {
@@ -27,10 +25,10 @@ export async function addProductApi(carro,mesaid,boleta_id) {
 
      })
      .then(function (response) {
-       console.log(response);
+       
      })
      .catch(function (error) {
-       console.log(error);
+      
      }); 
 
  }

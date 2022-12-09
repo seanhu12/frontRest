@@ -36,9 +36,6 @@ export default function EdProduct(props){
 
   }
 
-
-
-
   const loadCategory= async () => {
 
     try {

@@ -14,17 +14,24 @@ export async function getCategoriesApi(){
 }
 
 export async function addCategoryApi(name,description) {
-  
-     axios.post(`${API_HOST}/categories/`, {
+
+    const response = axios.post(`${API_HOST}/categories/`, {
       name: name,
       description: description
       })
       .then(function (response) {
+        
         console.log(response);
+        alert("Categoria  Agregada con exito");
       })
       .catch(function (error) {
         console.log(error);
+        alert('Existe una categoria con ese nombre') 
       });
+
+      return response
+
+      
 
   }
 

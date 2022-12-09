@@ -1,5 +1,6 @@
 import react from "react";
 import {createStackNavigator} from "@react-navigation/stack"
+import Icon,{} from "react-native-vector-icons/FontAwesome5";
 
 
 import AdmiScreen from "../screens/admin/AdmiScreen"
@@ -25,9 +26,11 @@ export default function AdminNavigation(){
     return(
 
         <Stack.Navigator>
-            <Stack.Screen name="admin" component={AdmiScreen} options={{title: "Administrador"}} />
+            <Stack.Screen name="admin" component={AdmiScreen} options={{title: "Administrador", headerLeft: ()=> (
+            <Icon name="arrow-right" style={{left: 20 }} size={20} />
+             ),} } />
             
-            <Stack.Screen name="category" component={AdminCategory} options={{title: "Categorias"}} />
+            <Stack.Screen name="category" component={AdminCategory} options={{title: "Categorias"}}  />
             <Stack.Screen name="agregarCat" component={AgCate} options={{title: "Categorias"}} />
             <Stack.Screen name="editarCat" component={EdCate} options={{title: "Categorias"}} />
             <Stack.Screen name="elimCat" component={ElCate} options={{title: "Categorias"}} />

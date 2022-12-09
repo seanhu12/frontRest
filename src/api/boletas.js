@@ -18,8 +18,6 @@ export async function getBoletaaApi(){
 
 export async function addBoletaApi(total,mesaid) {
 
-    console.log(total);
-    console.log(mesaid);
 
 
     axios.post(`${API_HOST}/boletas/`, {

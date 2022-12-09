@@ -13,62 +13,68 @@ import * as Yup from "yup";
 
 export default function AgProduct() {
 
+  const { category,setCategory} = useContext(RestaurantContext)
+  const navigation = useNavigation();
+  const [selectedImage, setSelectedImage] = useState(ImagePicker.ImageInfo);
+
+
+  //validaciones
   const formik = useFormik({
     initialValues: {name: "", description: "",price: "",amount: ""},
     validationSchema: Yup.object(validationSchema()),
     validateOnChange: false,
     onSubmit: async (formValue) => {
-            const uri =
-            Platform.OS === "android"
-              ? selectedImage.uri
-              : selectedImage.uri.replace("file://", "");
-          const filename = selectedImage.uri.split("/").pop();
-          const match = /\.(\w+)$/.exec(filename);
-          const ext = match?.[1];
-          const type = match ? `image/${match[1]}` : `image`;
-          const formData = new FormData();
-          console.log(filename);
+      //verificacion de precio y cantidad negativas
+      if(formValue.amount > 0 && formValue.price > 0){
+              const uri =
+              Platform.OS === "android"
+                ? selectedImage.uri
+                : selectedImage.uri.replace("file://", "");
+            const filename = selectedImage.uri.split("/").pop();
+            const match = /\.(\w+)$/.exec(filename);
+            const ext = match?.[1];
+            const type = match ? `image/${match[1]}` : `image`;
+            const formData = new FormData();
+            console.log(filename);
 
-          formData.append("image", {
-            uri,
-            name: `image.${ext}`,
-            type,
-          } );
+            formData.append("image", {
+              uri,
+              name: `image.${ext}`,
+              type,
+            } );
 
-          try {
-            const { data } = await axios.post(`${API_HOST}/upload`,formData,{
-              headers: { "Content-Type": "multipart/form-data" },
-            });
+            try {
+              const { data } = await axios.post(`${API_HOST}/upload`,formData,{
+                headers: { "Content-Type": "multipart/form-data" },
+              });
 
-            const response = await addProductApi(formValue.name,category.id,formValue.description,data.url,formValue.price,formValue.amount)
+              //envio de la peticion 
+              const response = await addProductApi(formValue.name,category.id,formValue.description,data.url,formValue.price,formValue.amount)
 
-            
-            if (!data.isSuccess) {
-              alert("Error en agregar");
-              return;
+              
+              if (!data.isSuccess) {
+                alert("Error en agregar");
+                return;
+              }
+              alert("Producto Agregado");
+              navigation.navigate('product')
+
+            } catch (err) {
+              console.log(err);
+              alert("Algo salio mal");
+            } finally {
+              setSelectedImage(undefined);
             }
-            alert("Producto Agregado");
-            navigation.navigate('product')
-
-          } catch (err) {
-            console.log(err);
-            alert("Algo salio mal");
-          } finally {
-            setSelectedImage(undefined);
-          }
-        
+      }else{
+        alert('Recuerde "solo numeros positivos" ')
+      }
+         
     }
   })
 
 
-  const { category,setCategory} = useContext(RestaurantContext)
-  const navigation = useNavigation();
-    
-
-
-    const [selectedImage, setSelectedImage] = useState(ImagePicker.ImageInfo);
-
-    const pickImage = async () => {
+    //Toma la imagen desde la galeria
+  const pickImage = async () => {
       let pickerResult = await ImagePicker.launchImageLibraryAsync({
         quality: 1,
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -77,7 +83,7 @@ export default function AgProduct() {
       if (pickerResult.cancelled === true) return;
       setSelectedImage(pickerResult);
 
-    };
+  };
 
 
     
@@ -91,6 +97,7 @@ export default function AgProduct() {
         value={formik.values.name}
         onChangeText={(text)=> formik.setFieldValue('name', text)}
       />
+      <Text style= {styles.errors}>{formik.errors.name} </Text>
        <TextInput
         style={styles.input}
         placeholder="Descripcion"
@@ -98,6 +105,7 @@ export default function AgProduct() {
         value={formik.values.description}
         onChangeText={(text)=> formik.setFieldValue('description', text)}
       />
+       <Text style= {styles.errors}>{formik.errors.description} </Text>
        <TextInput
         style={styles.input}
         placeholder="Precio"
@@ -105,13 +113,16 @@ export default function AgProduct() {
         value={formik.values.price}
         onChangeText={(text)=> formik.setFieldValue('price', text)}
       />
+       <Text style= {styles.errors}>{formik.errors.price} </Text>
          <TextInput
         style={styles.input}
         placeholder="Cantidad"
         autoCapitalize='none'
         value={formik.values.amount}
         onChangeText={(text)=> formik.setFieldValue('amount', text)}
+        
       />
+      <Text style= {styles.errors}>{formik.errors.amount} </Text>
         {selectedImage ? (
         <>
           <Image source={{uri: selectedImage.uri}}  style={styles.thumbnail} />
@@ -120,28 +131,23 @@ export default function AgProduct() {
       ) : (
         
         <Button onPress={pickImage} title="Ingrese imagen" />
-      )}
-      <Text style= {styles.errors}>{formik.errors.name} </Text>
-      <Text style= {styles.errors}>{formik.errors.description} </Text>
-      <Text style= {styles.errors}>{formik.errors.price} </Text>
-      <Text style= {styles.errors}>{formik.errors.amount} </Text>
-     
-
-    
-     
+      )} 
 
     </SafeAreaView>
   )
 }
+
+//las restricciones de cada input 
 function validationSchema () {
   return {
-    name: Yup.string().required("Falta rellenar el nombre"),
-    description: Yup.string().required("Falta rellenar la descripcion"),
+    name: Yup.string().required("Falta rellenar el nombre").matches("[A-Za-z]+","solo letras"),
+    description: Yup.string().required("Falta rellenar la descripcion").matches("[A-Za-z]+","solo letras"),
     price: Yup.number().typeError("El precio tiene que ser un valor numerico").required("Falta rellenar el Precio"),
     amount: Yup.number().typeError("La cantidad tiene que ser un valor numerico").required("Falta rellenar la cantidad")
   }
 }
 
+// estilos correspontientes
 const styles = StyleSheet.create({
 
     thumbnail: {

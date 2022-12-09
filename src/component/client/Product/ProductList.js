@@ -6,6 +6,8 @@ import RestaurantContext from '../../../RestaurantContext'
 import { capitalize } from "lodash"
 import { Button, TextInput, Modal, Portal } from 'react-native-paper';
 import DropDownPicker from 'react-native-dropdown-picker';
+import {useFormik} from "formik";
+import * as Yup from "yup";
 
 
 export default function ProductList(props) {
@@ -15,6 +17,40 @@ export default function ProductList(props) {
  
 
     const navigation = useNavigation();
+
+    const formik = useFormik({
+        initialValues: {cant: "1"},
+        validationSchema: Yup.object(validationSchema()),
+        validateOnChange: false,
+        onSubmit: async (formValue) => {
+            if(formValue.cant < amount){
+                if(formValue.cant > 0){
+                    const order = {
+                        id: id,
+                        table: mesa.id,
+                        category: cate,
+                        code: code,
+                        name: name,
+                        status: "enProceso",
+                        price: price,
+                        cant: formValue.cant
+                    }
+                    setCarro([...carro, order])
+                    alert("Producto agregado con exito ")
+                    setViewCont(false)
+    
+                }else{
+                    alert('Igrese un numero positivo porfavor')
+                }
+
+            }else{
+                alert('No hay suficientes suministros')
+            }
+
+        
+
+        }
+      })
     
    
     const {carro,setCarro } = useContext(RestaurantContext)
@@ -28,13 +64,14 @@ export default function ProductList(props) {
     
     
     const [viewCont,setViewCont] = useState(false)
-    const [cant,setCant] = useState('1');
+
 
     const [id,setid] = useState();
     const [cate,setCate] = useState();
     const [code,setCode] = useState();
     const [name,setName] = useState();
     const [price,setPrice] = useState();
+    const [amount,setAmount] = useState();
 
     const [open, setOpen] = useState(false);
     const [value, setValue] = useState(null);
@@ -69,34 +106,20 @@ export default function ProductList(props) {
     }
 
     const goToProduct = (item) => {
+        console.log(item);
         setViewCont(true)
         setid(item.id)
         setCate(item.category_id)
         setCode(item.code)
         setName(item.name)
         setPrice(item.price)
+        setAmount(item.amount)
     }
-    const Order = () => {
-        const order = {
-            id: id,
-            table: mesa.id,
-            category: cate,
-            code: code,
-            name: name,
-            status: "enProceso",
-            price: price,
-            cant: cant
-        }
-        setCarro([...carro, order])
-        alert("Producto agregado con exito ")
-        setViewCont(false)
-        setCant('1')
-
-    }  
 
     const createBolet = () => {
         navigation.navigate("carrito")
     }
+
     const Item = ({item}) => (
         <TouchableWithoutFeedback onPress={() => goToProduct(item)} >
         <View style={styles.card}>
@@ -157,10 +180,12 @@ export default function ProductList(props) {
                     <Modal visible= {viewCont} contentContainerStyle={containerStyle}> 
                         <TextInput
                             label="Cantidad"
-                            value={cant}
-                            onChangeText={cant => setCant(cant)}
+                            autoCapitalize='none'
+                            value={formik.values.cant}
+                            onChangeText={(text)=> formik.setFieldValue('cant', text)}   
                         />
-                        <Button  mode="contained" onPress={() => Order()}>
+                        <Text style= {styles.errors}>{formik.errors.cant} </Text>
+                        <Button  mode="contained" onPress={formik.handleSubmit}>
                         Pedir
                         </Button>
                         <Button  mode="contained" onPress={() => setViewCont(false)}>
@@ -179,6 +204,13 @@ export default function ProductList(props) {
        
     )
   
+}
+
+function validationSchema () {
+    return {
+      cant: Yup.number().typeError("Tiene que ser numerico").required("Ingrese una cantidad ")
+     
+    }
 }
 
 const styles = StyleSheet.create({
@@ -222,4 +254,10 @@ const styles = StyleSheet.create({
         marginTop: 20,
         marginBottom: Platform.OS === "android" ? 90 : 60,
       },
+    
+    errors: {
+      textAlign: "center",
+      color: "#f00",
+      marginTop: 20,
+    }
 })

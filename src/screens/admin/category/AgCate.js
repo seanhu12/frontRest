@@ -16,38 +16,41 @@ export default function AgCate() {
     validateOnChange: false,
     onSubmit: async (formValue) => {
       try {
-        const response = await addCategoryApi(formValue.cate,formValue.description);  
-        alert("Categoria  Agregada con exito");
-        navigation.navigate('category')
+        const response = await addCategoryApi(formValue.cate,formValue.description);     
+       
      } catch (error) {
           console.error(error);
-          alert("Error.....");  
+    
       }
+      navigation.navigate('category')
     }
   })
    
   return (
     <SafeAreaView >
-        <TextInput
+      <Text style= {styles.errors}>{formik.errors.cate} </Text>
+      <TextInput
         style={styles.input}
         placeholder="Categoria"
         autoCapitalize='none'
         value={formik.values.cate}
         onChangeText={(text)=> formik.setFieldValue('cate', text)}
       />
-        <TextInput
+       <Text style= {styles.errors}>{formik.errors.description} </Text>
+
+      <TextInput
         style={styles.input}
         placeholder="Descripcion"
         autoCapitalize='none'
         value={formik.values.description}
         onChangeText={(text)=> formik.setFieldValue('description', text)}
       />
-       
+     
+
       
       <Button title="Agregar Categoria" onPress={formik.handleSubmit}/>
-      <Text style= {styles.errors}>{formik.errors.cate} </Text>
-      <Text style= {styles.errors}>{formik.errors.description} </Text>
-
+      
+      
     </SafeAreaView>
   )
 }
@@ -64,12 +67,12 @@ const styles = StyleSheet.create({
     margin: 12,
     borderWidth: 1,
     padding: 10,
-    borderRadius: 10,
+    borderRadius: 5,
   },
   errors: {
     textAlign: "center",
     color: "#f00",
-    marginTop: 20,
+    marginTop: 5,
   }
   });
   

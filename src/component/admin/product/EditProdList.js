@@ -10,6 +10,7 @@ import EditProdCard from './EditProdCard'
 export default function EditProdList(props) {
   const {category,product} = props 
 
+ 
 
     return (
       <SafeAreaView>
