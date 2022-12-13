@@ -19,23 +19,22 @@ export default function ElimiCard(props) {
  
 
  
-
-  const goToMenu = async () => {
-
-
+   //Borra la categoria
+  const delet = async () => {
 
     setCategory(categorys)
     try {
         const response = await DeleteCategoryApi(categorys.id)
-        navigation.navigate('admin')
-        alert('Categoria Eliminada')
+       
+        
     } catch (error) {
         throw error
     }
+    navigation.navigate('admin')
   }
  
     return (
-      <TouchableWithoutFeedback onPress={goToMenu}>
+      <TouchableWithoutFeedback onPress={delet}>
         <View style= {styles.card}>
           <View style={styles.spacing}>
             <View style = {styles.bgStyles}>

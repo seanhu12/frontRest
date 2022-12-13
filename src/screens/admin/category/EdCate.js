@@ -18,7 +18,7 @@ export default function ClientScreen(props){
 
 
 
- 
+  //Ejecuta codigo
   useEffect(()=>{
     (async () => {
       await  loadCategory();    
@@ -26,6 +26,8 @@ export default function ClientScreen(props){
     })()
   },[])
 
+
+  //Carga Categoria
   const loadCategory= async () => {
 
     try {

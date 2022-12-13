@@ -1,7 +1,7 @@
 import {API_HOST} from "../utils/constants";
 import axios from "axios";
 
-
+//Obtiene los pedidos
 export async function getPedidosApi(){
     try {
        const url = `${API_HOST}pedidos`;    
@@ -12,7 +12,8 @@ export async function getPedidosApi(){
         throw error;
     }
 }
-export async function addProductApi(carro,mesaid,boleta_id) {
+//agrega un Pedido
+export async function addPedidApi(carro,mesaid,boleta_id) {
 
 
   

@@ -1,12 +1,12 @@
 import React,{useState,useEffect,useContext} from 'react'
-import { StyleSheet,Text,FlatList,Button, ToastAndroid} from 'react-native'
+import { StyleSheet,Text,FlatList,Button, ToastAndroid, View} from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import {useNavigation} from "@react-navigation/native"
-import {addProductApi} from "../../../api/pedidos"
+import {addPedidApi} from "../../../api/pedidos"
 import {addBoletaApi,getBoletaaApi} from "../../../api/boletas"
 import PedidosCard from "./PedidosCard"
 import RestaurantContext from '../../../RestaurantContext'
-import { log } from 'react-native-reanimated'
+
 
 
 export default function PedidosList(props) {
@@ -14,15 +14,19 @@ export default function PedidosList(props) {
     const navigation = useNavigation();
 
     
-    const {mesa,setMesa} = useContext(RestaurantContext)
+    const {mesa} = useContext(RestaurantContext)
     const {carro,setCarro} = useContext(RestaurantContext)
     const {total,settotal} = useContext(RestaurantContext)
+    const {carroAgregado,setCarroAgregado} = useContext(RestaurantContext)
     
-    const [idbolet,setIdBolet] = useState([])
+   
 
     var b = Number('0')
 
+    // ejecuta 
     useEffect(()=>{
+
+      //total de objetos en el carrito
 
       for (let index = 0; index < carr.length; index++){
         b = b + (parseInt(carr[index].price)*carro[index].cant)
@@ -36,29 +40,25 @@ export default function PedidosList(props) {
 
     
     const Pagar = async () => {
+      setCarroAgregado(true)
 
       var idBol = 1;
 
       await addBoletaApi(total,mesa.id)
       const response = await getBoletaaApi()
-      console.log(response.length);
+  
+
+      //obtengo la boleta recien creada 
        for (let i = 0; i < response.length; i++) {
           idBol = response[i].id      
         }
 
 
-        
-      console.log(idBol);
-
-      
-      
-      
+        //Agrega los pedidos a la base de datos
       for (let index = 0; index < carr.length; index++) {
          try {
            
-            await addProductApi(carr[index],mesa.id,idBol)
-
-            navigation.navigate('pago')
+            await addPedidApi(carr[index],mesa.id,idBol)
             
          } catch (error) {
             throw error
@@ -68,13 +68,21 @@ export default function PedidosList(props) {
        
      }
 
+     //borra el carro
      const eliminar =  () => {
+
 
        setCarro([])
        settotal(0)
  
      
       }
+      const time =  () => {
+        navigation.navigate('pago')
+
+
+      
+       }
 
 
 
@@ -91,9 +99,21 @@ export default function PedidosList(props) {
 
                 />
                 <Text>El total es de: {total} </Text>
+
+                {carroAgregado == false && (
+                  <View>
+                     <Button title='Pedir' onPress={Pagar}/>
+                     <Button title='Cancelar' onPress={eliminar}/>
+                  </View>
+                     
+                      
+                ) }
+                {carroAgregado == true && (
+                      <Button title='Tiempo estimado' onPress={time}/>
+                ) }
                 
-                <Button title='Pedir' onPress={Pagar}/>
-                <Button title='Cancelar' onPress={eliminar}/>
+                
+                
 
                 
 

@@ -14,17 +14,41 @@ export default function ProductList(props) {
     const containerStyle = {backgroundColor: 'white', padding: 20};
 
     const {products, cat} = props
+
+    const {carro,setCarro } = useContext(RestaurantContext)
+   
+    const {mesa} = useContext(RestaurantContext)
+    const [newProduct,setNewProd] = useState([])
+    
+    const [viewCont,setViewCont] = useState(false)
+
+
+    const [id,setid] = useState();
+    const [cate,setCate] = useState();
+    const [code,setCode] = useState();
+    const [name,setName] = useState();
+    const [price,setPrice] = useState();
+    const [amount,setAmount] = useState();
+
+    //necesario para el dropPicker
+    const [open, setOpen] = useState(false);
+    const [value, setValue] = useState(null);
+    const [items, setItems] = useState([{label: 'todos', value:'0'}]);
  
 
     const navigation = useNavigation();
 
+    // validaciones necesarias para el pedido 
     const formik = useFormik({
         initialValues: {cant: "1"},
         validationSchema: Yup.object(validationSchema()),
         validateOnChange: false,
         onSubmit: async (formValue) => {
-            if(formValue.cant < amount){
+            //verifica si hay stock necesario
+            if(formValue.cant <= amount){
+                //verifica el ingreso de solo numeros positivos
                 if(formValue.cant > 0){
+                    //crea un objeto orden
                     const order = {
                         id: id,
                         table: mesa.id,
@@ -35,10 +59,39 @@ export default function ProductList(props) {
                         price: price,
                         cant: formValue.cant
                     }
-                    setCarro([...carro, order])
+                    var x = new Boolean(true)
+                    
+                    //valida si esta cambiando la cantidad del producto o es uno nuevo
+                    if(carro.length == 0){
+                        setCarro([...carro, order])
+                       
+                    }else{
+                       
+                        for (let i = 0; i < carro.length; i++) {  
+
+                            if(carro[i].id == id && carro[i].table == mesa.id){
+                                x = false
+                              carro.forEach(carro => {
+                                 if(carro.id== id && carro.table == mesa.id){
+                                    
+                                   carro.cant = parseInt(carro.cant)  + parseInt(formValue.cant) ;
+                                 }   
+                              })
+                            }
+                             
+                         }
+
+                    }
+
+                    if(x){
+                        setCarro([...carro, order])
+                    }
+
                     alert("Producto agregado con exito ")
                     setViewCont(false)
-    
+
+                    
+                   
                 }else{
                     alert('Igrese un numero positivo porfavor')
                 }
@@ -53,49 +106,27 @@ export default function ProductList(props) {
       })
     
    
-    const {carro,setCarro } = useContext(RestaurantContext)
-    const {mesa} = useContext(RestaurantContext)
-    const [newProduct,setNewProd] = useState([])
-    
- 
+   
 
-
-
-    
-    
-    const [viewCont,setViewCont] = useState(false)
-
-
-    const [id,setid] = useState();
-    const [cate,setCate] = useState();
-    const [code,setCode] = useState();
-    const [name,setName] = useState();
-    const [price,setPrice] = useState();
-    const [amount,setAmount] = useState();
-
-    const [open, setOpen] = useState(false);
-    const [value, setValue] = useState(null);
-    const [items, setItems] = useState([{label: 'todos', value:'0'}]);
-
-
+    //ejecuta codigo necesario
     useEffect(()=>{
+
+        //carga los datos necesario en el dropicker
 
         if(newProduct.length == 0){
             setNewProd(products)
-        }
-       
+        } 
         var j=0;
-    
         for (var id in cat){
                 j++;
         }
-            
         for (let index = 0; index < j; index++) {
                items.push({label: cat[index].name,value: cat[index].id})
         }
         
     },[cat])
 
+    //filtra segun la eleccion del drawPicker
     const filter = () => {     
         if (value == 0){
             setNewProd(products)  
@@ -105,6 +136,7 @@ export default function ProductList(props) {
         }
     }
 
+   // guarda los datoss necesarios del producto seleccionado
     const goToProduct = (item) => {
         console.log(item);
         setViewCont(true)
@@ -116,10 +148,13 @@ export default function ProductList(props) {
         setAmount(item.amount)
     }
 
+    // navegacion al carrito
     const createBolet = () => {
+
         navigation.navigate("carrito")
     }
 
+    //item renderizado
     const Item = ({item}) => (
         <TouchableWithoutFeedback onPress={() => goToProduct(item)} >
         <View style={styles.card}>
@@ -137,7 +172,8 @@ export default function ProductList(props) {
        </TouchableWithoutFeedback>
 
     )
-    
+
+    // Para renderizar
     const renderItem = ({item}) => (
         <Item item = {item} /> 
     )
@@ -193,9 +229,13 @@ export default function ProductList(props) {
                         </Button>
                     </Modal>
                 </Portal>
-                
 
-                <Button onPress={createBolet} mode="contained" > Carrito</Button>
+                
+                     <Button onPress={createBolet} mode="contained" > Carrito</Button>
+                
+     
+
+               
 
 
         </SafeAreaView>
@@ -206,6 +246,7 @@ export default function ProductList(props) {
   
 }
 
+//validaciones Yup
 function validationSchema () {
     return {
       cant: Yup.number().typeError("Tiene que ser numerico").required("Ingrese una cantidad ")
@@ -213,6 +254,7 @@ function validationSchema () {
     }
 }
 
+//estilos necesarios
 const styles = StyleSheet.create({
     FlatListContentContainer: {
         paddingHorizontal: 5,

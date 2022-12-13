@@ -13,7 +13,7 @@ export default function listCate(props){
 
   const [category,setCategory] = useState([]);
 
-
+  // Ejecuta codigo
   useEffect(()=>{
     (async () => {
       await  loadCategory();    
@@ -21,6 +21,7 @@ export default function listCate(props){
     })()
   },[])
 
+  // carga categorias
   const loadCategory= async () => {
 
     try {

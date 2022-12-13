@@ -12,6 +12,8 @@ export default function EdProduct(props){
   const [category,setCategory] = useState([]);
   const [products,setProducts] = useState([]);
 
+
+  // Ejecuta Codio
   useEffect(()=>{
     (async () => {
       await  loadCategory();    
@@ -21,7 +23,7 @@ export default function EdProduct(props){
   },[])
 
  
-
+  //Carga Productos
   const loadProduct = async () => {
 
     try {
@@ -36,6 +38,7 @@ export default function EdProduct(props){
 
   }
 
+  //Carga Categorias
   const loadCategory= async () => {
 
     try {

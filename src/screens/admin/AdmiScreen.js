@@ -11,21 +11,16 @@ export default function AdmiScreen(props) {
 
 
 
-
+ // Navegacion menu de categoria
   const categoria = () => {
 
     navigation.navigate("category")
 
   }
 
+  // Navegacion menu de Producto
   const pruducto = () => {
-
-
-
-
     navigation.navigate("product",)
-
-
   }
 
 

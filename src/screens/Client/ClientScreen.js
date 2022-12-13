@@ -14,6 +14,9 @@ export default function ClientScreen(){
   const [products,setProducts] = useState([]);
   const [category,setCategory] = useState([]);
   const {cat,setCat} = useContext(RestaurantContext)
+
+
+  //ejecuta parte del codigo necesarios
   useEffect(()=>{
     (async () => {
       await  loadProduct();    
@@ -22,11 +25,11 @@ export default function ClientScreen(){
     })()
   },[])
 
+  //carga los productos de la base de datos
   const loadProduct = async () => {
     try {
-      
-      const response = await getProductApi();
-      
+      // espera una respuesta
+      const response = await getProductApi();  
       setProducts([...response]);
       
     
@@ -35,8 +38,10 @@ export default function ClientScreen(){
     }
 
   }
+  // carga las categorias de la base de datos
   const loadCategory= async () => {
     try {      
+      //espera una respuesta 
       const response = await getCategoriesApi();
       setCategory([...response]);
       setCat(response)

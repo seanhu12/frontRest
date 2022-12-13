@@ -8,19 +8,20 @@ export default function AdminCategory(props) {
 
   const navigation = useNavigation();
   
-
+  //navegacion a menu agregar
   const agregar = () => {
 
    navigation.navigate('agregarCat');
 
   }
+  
+  //navegacion a menu  editar
   const editar = () => {
     navigation.navigate('editarCat');
 
-
-    
-
   }
+  
+  //navegacion a menu eliminar
   const eliminar = () => {
     navigation.navigate('elimCat');
     

@@ -14,9 +14,8 @@ export default function ClientCarritoScreen(props){
   const {carro,setCarro} = useContext(RestaurantContext)
   const {mesa,setMesa} = useContext(RestaurantContext)
 
- 
 
-
+  // Filtra desde el carrito segun la mesa
   const newProduct = carro.filter((carro) => carro.table == mesa.id)
   
  

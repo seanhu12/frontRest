@@ -46,6 +46,7 @@ export default function MesaList(props) {
   
 }
 
+//Estilos correspondientes
 const styles = StyleSheet.create({
   FlatListContentContainer: {
       paddingHorizontal: 5,

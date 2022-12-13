@@ -25,8 +25,6 @@ export default function PedidosCard(props) {
               <Text style={styles.name1}> cantidad: {capitalize(carro.cant) } </Text>
 
             </View>
-            
-
           </View>
         </View>
       </TouchableWithoutFeedback>

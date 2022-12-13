@@ -4,7 +4,7 @@ import axios from "axios";
 
 
 
-
+//Busca las boletas en la base de datos
 export async function getBoletaaApi(){
     try {
        const url = `${API_HOST}/boletas/`;    
@@ -16,6 +16,7 @@ export async function getBoletaaApi(){
     }
 }
 
+//Agrega una boleta en la base de datos
 export async function addBoletaApi(total,mesaid) {
 
 

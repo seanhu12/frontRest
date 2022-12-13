@@ -21,12 +21,10 @@ export default function ElcatePrAgCard(props) {
  
 
  
-
+  //navega al agrearProd
   const goToMenu = async () => {
     setCategory(categorys)
     navigation.navigate('agregarProd')
-
-
   }
  
     return (
@@ -35,9 +33,7 @@ export default function ElcatePrAgCard(props) {
           <View style={styles.spacing}>
             <View style = {styles.bgStyles}>
               <Text style={styles.name1}>{capitalize(categorys.name)} </Text>
-
             </View>
-
           </View>
         </View>
       </TouchableWithoutFeedback>

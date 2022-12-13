@@ -12,19 +12,20 @@ import MesaList from '../../component/client/Mesa/MesaList';
 export default function MesaScreen() {
 
     const [mesas,setmesas] = useState([])
-    
 
+    //Ejecuta codigo
     useEffect(() => {
         (async () => {   
             await loadMesa(); 
         })()
     },[])
 
-
+    // carga las mesas de la base de datos
     const loadMesa = async () => {
+
+        //espera una respuesta
         try {
             const response = await getMesaApi();
-           
             setmesas([...response])
         } catch (error) {
             console.error(error);

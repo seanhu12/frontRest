@@ -18,21 +18,25 @@ export default function ElimiProd(props) {
 
 
   const goToProduct = (item) => {
+    //abre modal
     setViewCont(true)
+    //Guarda id del producto
     setid(item.id)
 
 }
 
+
+// Elimina el producto seleccionado
 const Eliminar = async() => {
     try {
         const response = await DeleteProduct(id)
-      
-        navigation.navigate("admin")
-        alert('Producto eliminado')
+       
+        
         
     } catch (error) {
-        
+        console.log(error);
     }
+    navigation.navigate("admin")
 
 }
 
@@ -82,8 +86,8 @@ const renderItem = ({item}) => (
               }
            
             />
-             <Portal>
-
+             <Portal> 
+                    
                     <Modal visible= {viewCont} contentContainerStyle={containerStyle}> 
                       
 

@@ -12,12 +12,13 @@ export default function formEdit() {
 
   const { category,setCategory} = useContext(RestaurantContext)
 
+   //Validaciones necesarias
   const formik = useFormik({
     initialValues: {cate: category.name, description: category.description},
     validationSchema: Yup.object(validationSchema()),
     validateOnChange: false,
     onSubmit: async (formValue) => {
-      console.log(formValue);
+    
 
       try {
 
@@ -59,7 +60,7 @@ export default function formEdit() {
 
     </SafeAreaView>
   )
-
+ //Validaciones Yup
   function validationSchema () {
       return {
         cate: Yup.string().required("Rellene el nombre porfavot"),
@@ -69,7 +70,7 @@ export default function formEdit() {
 }
 
 
-
+//Estilos correspondientes
 const styles = StyleSheet.create({
     input: {
       height: 40,

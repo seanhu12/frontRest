@@ -10,6 +10,8 @@ export default function AgCate() {
 
   const navigation = useNavigation();
 
+
+  //Validaciones Necesarias
   const formik = useFormik({
     initialValues: {cate: "", description: ""},
     validationSchema: Yup.object(validationSchema()),
@@ -54,6 +56,8 @@ export default function AgCate() {
     </SafeAreaView>
   )
 }
+
+//Validaciones YUP
 function validationSchema () {
   return {
     cate: Yup.string().required("Falta en nombre de la categoria"),
@@ -61,6 +65,7 @@ function validationSchema () {
   }
 }
 
+//estilos correspondientes
 const styles = StyleSheet.create({
   input: {
     height: 40,

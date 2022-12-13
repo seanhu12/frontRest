@@ -9,26 +9,18 @@ export default function AdminProduct(props) {
   const navigation = useNavigation();
   
 
+  // Navegacion menu de agregar
   const agregar = () => {
-
-   navigation.navigate('listcate');
-
+    navigation.navigate('listcate');
   }
+
+   // Navegacion menu de editar
   const editar = () => {
-  
     navigation.navigate('listProdEd');
-
-    
-
-
-    
-
   }
+   // Navegacion menu de eliminar
   const eliminar = () => {
     navigation.navigate('elimProd');
-
-    
-
   }
   
 

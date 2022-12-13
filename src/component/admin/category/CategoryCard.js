@@ -18,19 +18,16 @@ export default function CategoryCard(props) {
  
 
  
-
-  const goToMenu = () => {
+ //Navega al formulario
+  const goToForm = () => {
 
     setCategory(categorys)
-
-    
     navigation.navigate("formEdit",)
     
-
   }
  
     return (
-      <TouchableWithoutFeedback onPress={goToMenu}>
+      <TouchableWithoutFeedback onPress={goToForm}>
         <View style= {styles.card}>
           <View style={styles.spacing}>
             <View style = {styles.bgStyles}>

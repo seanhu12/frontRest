@@ -15,14 +15,15 @@ export default function ElCate(props){
 
   const [category,setCategory] = useState([]);
 
-
+  //Ejecuta codigo
   useEffect(()=>{
     (async () => {
       await  loadCategory();    
       
     })()
   },[])
-
+  
+  //Carga Categorias de la base de datos
   const loadCategory= async () => {
 
     try {

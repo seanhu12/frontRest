@@ -1,6 +1,8 @@
 import {API_HOST} from "../utils/constants"
 import axios from "axios";
 
+
+//Obtiene las categorias 
 export async function getCategoriesApi(){
     try {
         const url =`${API_HOST}/categories/`;
@@ -13,6 +15,8 @@ export async function getCategoriesApi(){
     }
 }
 
+
+//Agrega una categoria 
 export async function addCategoryApi(name,description) {
 
     const response = axios.post(`${API_HOST}/categories/`, {
@@ -35,6 +39,7 @@ export async function addCategoryApi(name,description) {
 
   }
 
+  //Actualiza una categorias 
   export async function updateCategoryApi(name,description,id) {
         const url = `${API_HOST}/categories/${id}`;
          const response = await axios
@@ -49,11 +54,22 @@ export async function addCategoryApi(name,description) {
          return response 
  }
 
+
+
+//Elimina las categorias 
  export async function DeleteCategoryApi(id) {
 
 
    const url = `${API_HOST}/categories/${id}`;
-   const response =  await axios.delete(url);
+   const response =  await axios.delete(url).then(function (response) {
+        
+        
+        alert("Eliminada con exito");
+  }).catch(function (error) {
+        console.log(error);
+        alert('Tiene productos asociados') 
+  });
+
                      
        return response; 
 }

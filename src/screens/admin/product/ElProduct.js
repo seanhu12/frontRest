@@ -17,6 +17,7 @@ export default function ElProducto(){
     const [products,setProducts] = useState([]);
     const [category,setCategory] = useState([]);
 
+     // Ejecuta Codio
     useEffect(()=>{
       (async () => {
          
@@ -27,7 +28,7 @@ export default function ElProducto(){
     },[])
   
    
-  
+    //Carga Productos
     const loadProduct = async () => {
   
       try {
@@ -41,6 +42,8 @@ export default function ElProducto(){
       }
   
     }
+
+    //Carga Categorias
     const loadCategory= async () => {
 
       try {
@@ -57,13 +60,6 @@ export default function ElProducto(){
       
   
     }
-  
-  
-  
-  
-    
-      
- 
   
   return (
     <SafeAreaView>

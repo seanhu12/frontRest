@@ -13,9 +13,10 @@ export default function MesaCard(props) {
   const {setMesa} = useContext(RestaurantContext)
 
  
-
+  //navegacion hacia el menu
   const goToMenu = () => {
 
+    //cuardamos la mesa seleccionada en un context
     setMesa(mesas)
 
     
