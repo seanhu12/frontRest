@@ -1,6 +1,8 @@
 ��#� �f�r�o�n�t�R�e�s�t�
 �
 �
+
+
   1.- Primero: ya abierto laraver realizar un composer instal-----------------
   
   2.- Segundo: generar una llave con php artisan key generate-----------------
