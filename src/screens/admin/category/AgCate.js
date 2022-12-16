@@ -16,7 +16,9 @@ export default function AgCate() {
     initialValues: {cate: "", description: ""},
     validationSchema: Yup.object(validationSchema()),
     validateOnChange: false,
+
     onSubmit: async (formValue) => {
+      //agregar a base de datos
       try {
         const response = await addCategoryApi(formValue.cate,formValue.description);     
        
@@ -60,7 +62,7 @@ export default function AgCate() {
 //Validaciones YUP
 function validationSchema () {
   return {
-    cate: Yup.string().required("Falta en nombre de la categoria"),
+    cate: Yup.string().required("Falta el nombre de la categoria"),
     description: Yup.string().required("Falta la descripcion de la categoria")
   }
 }

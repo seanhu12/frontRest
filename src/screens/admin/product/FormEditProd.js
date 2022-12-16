@@ -48,11 +48,11 @@ export default function FormEditProd() {
               //se hace la peticion con el id de la categoria
               const Response = await updateProductApi(formValue.name,formValue.description,product.id,category[index].id,formValue.price,formValue.amount)
               z = 1
-              alert("Actualizado Con exito")
+             
               navigation.navigate('product')
     
             } catch (error) {
-              alert("Error de conexion")
+            
               
             }
           }
@@ -60,7 +60,6 @@ export default function FormEditProd() {
         }
         // en caso de que no se seleccione ninguna categoria
         if (z == 0){
-              
          
           alert("Seleccione Alguna Categoria ")
         }       

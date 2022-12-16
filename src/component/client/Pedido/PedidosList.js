@@ -18,6 +18,7 @@ export default function PedidosList(props) {
     const {carro,setCarro} = useContext(RestaurantContext)
     const {total,settotal} = useContext(RestaurantContext)
     const {carroAgregado,setCarroAgregado} = useContext(RestaurantContext)
+    const [idBolet,setidbolet] = useState()
     
    
 
@@ -37,28 +38,36 @@ export default function PedidosList(props) {
        
     },[])
 
+    useEffect(()=>{
+      (async () => {
+        await addBoletaApi(total,mesa.id)
+        const response = await getBoletaaApi();
+        let idBol = 0
+        
+        //obtengo la boleta recien creada 
+        for (let i = 0; i < response.length; i++) {
+          idBol = response[i].id     
+
+        }
+        setidbolet(idBol)
+        
+      })()
+    },[Pagar])
+
+
+
+
 
     
     const Pagar = async () => {
       setCarroAgregado(true)
-
-      var idBol = 1;
-
-      await addBoletaApi(total,mesa.id)
-      const response = await getBoletaaApi()
-  
-
-      //obtengo la boleta recien creada 
-       for (let i = 0; i < response.length; i++) {
-          idBol = response[i].id      
-        }
+      
 
 
-        //Agrega los pedidos a la base de datos
       for (let index = 0; index < carr.length; index++) {
          try {
            
-            await addPedidApi(carr[index],mesa.id,idBol)
+            await addPedidApi(carr[index],mesa.id,idBolet)
             
          } catch (error) {
             throw error
@@ -68,15 +77,7 @@ export default function PedidosList(props) {
        
      }
 
-     //borra el carro
-     const eliminar =  () => {
 
-
-       setCarro([])
-       settotal(0)
- 
-     
-      }
       const time =  () => {
         navigation.navigate('pago')
 
@@ -100,17 +101,11 @@ export default function PedidosList(props) {
                 />
                 <Text>El total es de: {total} </Text>
 
-                {carroAgregado == false && (
-                  <View>
+          
+                
                      <Button title='Pedir' onPress={Pagar}/>
-                     <Button title='Cancelar' onPress={eliminar}/>
-                  </View>
-                     
-                      
-                ) }
-                {carroAgregado == true && (
-                      <Button title='Tiempo estimado' onPress={time}/>
-                ) }
+                    <Button title='Tiempo estimado' onPress={time}/>
+             
                 
                 
                 

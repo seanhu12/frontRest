@@ -66,7 +66,7 @@ export default function ProductList(props) {
                         setCarro([...carro, order])
                        
                     }else{
-                       
+                        // revisa si es que el producto se repite
                         for (let i = 0; i < carro.length; i++) {  
 
                             if(carro[i].id == id && carro[i].table == mesa.id){

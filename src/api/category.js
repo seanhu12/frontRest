@@ -49,7 +49,16 @@ export async function addCategoryApi(name,description) {
            description: description
          }, {
              headers: { 'Content-type': 'application/json; charset=UTF-8' }
-         });
+         }).then(function (response) {
+        
+          console.log(response);
+          alert("Categoria Actualizada con exito");
+        })
+        .catch(function (error) {
+          console.log(error);
+          alert('Existe una categoria con ese nombre') 
+        });;
+
 
          return response 
  }

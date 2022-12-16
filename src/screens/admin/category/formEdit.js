@@ -23,13 +23,14 @@ export default function formEdit() {
       try {
 
         const response = await updateCategoryApi(formValue.cate,formValue.description,category.id);
-        alert("Categoria  actualizada con exito");
+       
         navigation.navigate('category')
      
       } catch (error) {
         
-        alert("Existe otra categoria con ese nombre");
+  
       }
+      navigation.navigate('category')
 
       
     }

@@ -47,7 +47,14 @@ export async function addProductApi(name,categoryid,description,image,price,amou
      amount: amount
    }, {
        headers: { 'Content-type': 'application/json; charset=UTF-8' }
-   });
+   }).then(function (response) {
+        
+        
+    alert("Actualizada con exito");
+}).catch(function (error) {
+    console.log(error);
+    alert('Error Existe otro producto con el mismo nombre') 
+});;
 
    return response 
 }
